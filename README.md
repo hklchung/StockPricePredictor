@@ -23,3 +23,5 @@ To see how each stage of how the model was built, please check the Jupyter Noteb
 
 To see more in depth comments and coding, please visit the Python scripts folder.
 
+# Future Directions
+I would like to point out that neural networks were not considered for this project due to the computational demands of these algorithms. In particular, I felt that recurrent neural networks such as Long-Short Term Memory (LSTM) neural networks were the most appropriate for this project as these models were designed specifically for time-series data. Also, due to time constraints other methods of feature engineering were not explored, classic stock market indicators such as Bollinger Bands, Sharpe Ratios and even more days in the rolling period alone may benefit the learners significantly. This concludes the first stage of this project but the above mentioned room for improvements will be explored in the second stage of this project.
