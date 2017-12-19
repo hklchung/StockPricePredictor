@@ -15,11 +15,13 @@ The workflow of the project goes as follows:
 2) Feature Engineering with Dimensionality Reduction
 3) Train with Classification Algorithms
 4) Train with Optimized Classification Algorithms with GridSearch using TimeSeriesSplit for cross validation
+5) Train with XGBoost Classifier and Optimize with GridSearch using TimeSeriesSplit for cross validation
 
 To see how each stage of how the model was built, please check the Jupyter Notebooks:
 1) Step1_Data+Extraction+and+Cleaning.ipynb
 2) Step2_Feature+Engineering+and+Dimensionality+Reduction.ipynb
 3) Step3_Machine+Learning+Implementation+and+Optimization.ipynb
+4) Step4_XGBClassifier+Implementation+and+Optimization.ipynb
 
 To see more in depth comments and coding, please visit the Python scripts folder.
 
