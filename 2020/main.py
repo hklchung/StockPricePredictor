@@ -32,6 +32,25 @@ symbol = 'AAPL'
 resolution = 1
 
 def request_quote(symbol, resolution, token):
+    """
+    Enter stock symbol, resolution and your finnhub token to retrieve
+    stock price.
+
+    Parameters
+    ----------
+    symbol : String
+        Stock symbol, e.g. Apple is AAPL.
+    resolution : Integer or String
+        The possible values are 1, 5, 15, 30, 60, D, W, M.
+    token : String
+        Register an account on finnhub.io and get your API.
+
+    Returns
+    -------
+    df : Pandas DataFrame
+        A Pandas DataFrame containing stock price information.
+
+    """
     q_string = 'https://finnhub.io/api/v1/stock/candle?symbol={}&resolution={}&from=1572651390&to=1572910590&token={}'
     r = requests.get(q_string.format(symbol, resolution, token))
     c = []
@@ -39,4 +58,30 @@ def request_quote(symbol, resolution, token):
     df = pd.DataFrame.from_dict(r.json(), orient='index').reset_index().T[1:]
     df.columns = c
     del(df['s'])
+    return df
+
+def request_comp_info(symbol, token):
+    """
+    Enter stock symbol and your finnhub token to retrieve information about
+    the company.
+
+    Parameters
+    ----------
+    symbol : String
+        Stock symbol, e.g. Apple is AAPL.
+    token : String
+        Register an account on finnhub.io and get your API.
+
+    Returns
+    -------
+    df : Pandas DataFrame
+        A Pandas DataFrame containing information about a company.
+
+    """
+    q_string = 'https://finnhub.io/api/v1/stock/profile2?symbol={}&token={}'
+    r = requests.get(q_string.format(symbol, token))
+    c = []
+    [c.append(x) for x in r.json().keys()]
+    df = pd.DataFrame.from_dict(r.json(), orient='index').reset_index().T[1:]
+    df.columns = c
     return df
