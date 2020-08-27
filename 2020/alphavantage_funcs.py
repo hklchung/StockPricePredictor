@@ -67,3 +67,27 @@ def request_stock_price_hist(symbol, token, sample = False):
     df.columns = ["open", "high", "low", "close", "adjusted close", "volume", "dividend amount", "split cf"]
     df['date'] = date
     return(df)
+
+def request_quote(symbol, token):
+    """
+    Eneter stock symbol and your alpha vantage token to retrieve stock quote.
+
+    Parameters
+    ----------
+    symbol : String
+        Stock symbol, e.g. Apple is AAPL.
+    token : String
+        Register an account on alphavantage.co and get your API.
+
+    Returns
+    -------
+    df : Pandas DataFrame
+        A Pandas DataFrame containing stock price information.
+
+    """
+    q_string = 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={}&apikey={}'
+    r = requests.get(q_string.format(symbol, token))
+    colnames = [x.split('. ')[1] for x in list(r.json()['Global Quote'].keys())]
+    df = pd.DataFrame.from_dict(r.json()['Global Quote'], orient='index').reset_index().T[1:]
+    df.columns = colnames
+    return(df)
