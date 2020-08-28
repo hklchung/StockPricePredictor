@@ -28,13 +28,10 @@ import requests
 import pandas as pd
 import numpy as np
 
-symbol = 'AAPL'
-resolution = 1
-
 def request_quote(symbol, resolution, token):
     """
-    Enter stock symbol, resolution and your finnhub token to retrieve
-    stock price.
+    This function helps the user to retrieve current stock quote for the
+    specified symbol from finnhub.
 
     Parameters
     ----------
@@ -62,8 +59,8 @@ def request_quote(symbol, resolution, token):
 
 def request_comp_info(symbol, token):
     """
-    Enter stock symbol and your finnhub token to retrieve information about
-    the company.
+    This function helps the user to retrieve information the company
+    represented by the specified symbol from finnhub.
 
     Parameters
     ----------

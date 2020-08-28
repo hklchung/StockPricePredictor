@@ -99,3 +99,7 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# other crap
+token.py
+Data/

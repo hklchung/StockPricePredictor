@@ -31,7 +31,8 @@ from tqdm import tqdm
 
 def request_stock_price_hist(symbol, token, sample = False):
     """
-    Enter stock symbol and your alpha vantage token to retrieve stock price.
+    This function helps the user to retrieve historical stock prices for the
+    specified symbol from Alpha Vantage.
 
     Parameters
     ----------
@@ -70,7 +71,8 @@ def request_stock_price_hist(symbol, token, sample = False):
 
 def request_quote(symbol, token):
     """
-    Eneter stock symbol and your alpha vantage token to retrieve stock quote.
+    This function helps the user to retrieve current stock quote for the
+    specified symbol from Alpha Vantage.
 
     Parameters
     ----------
@@ -94,8 +96,8 @@ def request_quote(symbol, token):
 
 def request_symbols(token):
     """
-    Simply put in your alpha vantage token to retrieve all currently active
-    listed stocks and their symbols.
+    This function helps the user to retrieve all currently active listed 
+    stocks and their symbols from Alpha Vantage.
 
     Parameters
     ----------
@@ -124,7 +126,27 @@ def request_symbols(token):
 
 list(df.loc[df['exchange'] == 'NASDAQ']['symbol'])[0]
 
-def save_stock_price_hist(symbol_list, token, pwd):
+def save_stock_price_hist(symbol_list, token, pwd=''):
+    """
+    This function helps the user to download all historical stock prices
+    for each symbol on the symbol_list parameter from Alpha Vantage. There 
+    will be a CSV file for each symbol and the user can specify the output 
+    path for the CSV files.
+
+    Parameters
+    ----------
+    symbol_list : List
+        A list of symbols (string type) to query.  
+    token : String
+        Register an account on alphavantage.co and get your API.
+    pwd : String, optional
+        The path to the directory where the CSV files will be saved.
+
+    Returns
+    -------
+    None
+
+    """
     for i in symbol_list:
         df = request_stock_price_hist(i, token)
         df.to_csv('{}/{}_{}.csv'.format(pwd, i, datetime.today().strftime('%Y%m%d')))
