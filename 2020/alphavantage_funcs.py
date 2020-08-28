@@ -53,9 +53,9 @@ def request_stock_price_hist(symbol, token, sample = False):
     else:
         q_string = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol={}&apikey={}'
     
-    print("Retrieving stock price data from Alpha Vantage...")
+    print("Retrieving stock price data from Alpha Vantage (This may take a while)...")
     r = requests.get(q_string.format(symbol, token))
-    print("Data has been successfully downloaded (This may take a while)...")
+    print("Data has been successfully downloaded...")
     date = []
     colnames = list(range(0, 7))
     df = pd.DataFrame(columns = colnames)
@@ -90,4 +90,34 @@ def request_quote(symbol, token):
     colnames = [x.split('. ')[1] for x in list(r.json()['Global Quote'].keys())]
     df = pd.DataFrame.from_dict(r.json()['Global Quote'], orient='index').reset_index().T[1:]
     df.columns = colnames
+    return(df)
+
+def request_symbols(token):
+    """
+    Simply put in your alpha vantage token to retrieve all currently active
+    listed stocks and their symbols.
+
+    Parameters
+    ----------
+    token : String
+        Register an account on alphavantage.co and get your API.
+
+    Returns
+    -------
+    df : Pandas DataFrame
+        A Pandas DataFrame containing stock price information.
+
+    """
+    q_string = 'https://www.alphavantage.co/query?function=LISTING_STATUS&apikey={}'   
+    print("Retrieving stock symbols from Alpha Vantage...")
+    r = requests.get(q_string.format(token)).content
+    print("Data has been successfully downloaded...")
+    r = r.decode("utf-8")
+    colnames = list(range(0, 6))
+    df = pd.DataFrame(columns = colnames)
+    print("Sorting the retrieved data into a dataframe...")
+    for i in tqdm(range(1, len(r.split('\r\n'))-1)):
+        row = pd.DataFrame(r.split('\r\n')[i].split(',')).T
+        df = pd.concat([df, row], ignore_index=True)
+    df.columns = r.split('\r\n')[0].split(',')
     return(df)
