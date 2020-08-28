@@ -28,6 +28,9 @@ import requests
 import pandas as pd
 import numpy as np
 from tqdm import tqdm
+from datetime import timedelta
+from datetime import datetime
+import time
 
 def request_stock_price_hist(symbol, token, sample = False):
     """
@@ -124,7 +127,8 @@ def request_symbols(token):
     df.columns = r.split('\r\n')[0].split(',')
     return df
 
-list(df.loc[df['exchange'] == 'NASDAQ']['symbol'])[0]
+#symb = list(sym_df.loc[sym_df['exchange'] == 'NASDAQ']['symbol'])
+#save_stock_price_hist(symb[116:200], token, 'Data')
 
 def save_stock_price_hist(symbol_list, token, pwd=''):
     """
@@ -147,7 +151,21 @@ def save_stock_price_hist(symbol_list, token, pwd=''):
     None
 
     """
+    curr = 0
+    n = datetime.now()
     for i in symbol_list:
+        ind = symb.index(i)
+        if ind - curr == 4:
+            curr = ind
+            l = datetime.now()
+            if l - n < timedelta(minutes=1):
+                print("We made 5 API calls in the last minute, taking a break...")
+                time.sleep((timedelta(minutes=2) - (l - n)).seconds)
+            else:
+                pass
+        else:
+            pass
+                
         df = request_stock_price_hist(i, token)
         df.to_csv('{}/{}_{}.csv'.format(pwd, i, datetime.today().strftime('%Y%m%d')))
     return None
