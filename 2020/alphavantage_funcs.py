@@ -66,7 +66,7 @@ def request_stock_price_hist(symbol, token, sample = False):
         df = pd.concat([df, row], ignore_index=True)
     df.columns = ["open", "high", "low", "close", "adjusted close", "volume", "dividend amount", "split cf"]
     df['date'] = date
-    return(df)
+    return df
 
 def request_quote(symbol, token):
     """
@@ -90,7 +90,7 @@ def request_quote(symbol, token):
     colnames = [x.split('. ')[1] for x in list(r.json()['Global Quote'].keys())]
     df = pd.DataFrame.from_dict(r.json()['Global Quote'], orient='index').reset_index().T[1:]
     df.columns = colnames
-    return(df)
+    return df
 
 def request_symbols(token):
     """
@@ -120,4 +120,12 @@ def request_symbols(token):
         row = pd.DataFrame(r.split('\r\n')[i].split(',')).T
         df = pd.concat([df, row], ignore_index=True)
     df.columns = r.split('\r\n')[0].split(',')
-    return(df)
+    return df
+
+list(df.loc[df['exchange'] == 'NASDAQ']['symbol'])[0]
+
+def save_stock_price_hist(symbol_list, token, pwd):
+    for i in symbol_list:
+        df = request_stock_price_hist(i, token)
+        df.to_csv('{}/{}_{}.csv'.format(pwd, i, datetime.today().strftime('%Y%m%d')))
+    return None
