@@ -136,6 +136,11 @@ def save_stock_price_hist(symbol_list, token, pwd=''):
     for each symbol on the symbol_list parameter from Alpha Vantage. There 
     will be a CSV file for each symbol and the user can specify the output 
     path for the CSV files.
+    
+    Please note that Alpha Vantage does not accept more than 5 calls per
+    minute. Therefore if your symbol_list object is long, the function will
+    automatically set waiting time to ensure there is no break once the
+    function is set to run.
 
     Parameters
     ----------
@@ -151,21 +156,17 @@ def save_stock_price_hist(symbol_list, token, pwd=''):
     None
 
     """
-    curr = 0
     n = datetime.now()
+    curr = 0
     for i in symbol_list:
         ind = symb.index(i)
-        if ind - curr == 4:
-            curr = ind
-            l = datetime.now()
-            if l - n < timedelta(minutes=1):
-                print("We made 5 API calls in the last minute, taking a break...")
-                time.sleep((timedelta(minutes=2) - (l - n)).seconds)
-            else:
-                pass
+        l = datetime.now()
+        if (l - n < timedelta(minutes=1)) and (ind-curr == 5):
+            print("We made 5 API calls in the last minute, taking a break...")
+            time.sleep((timedelta(minutes=1) - (l - n)).seconds)
+            curr = i
         else:
-            pass
-                
-        df = request_stock_price_hist(i, token)
-        df.to_csv('{}/{}_{}.csv'.format(pwd, i, datetime.today().strftime('%Y%m%d')))
+            df = request_stock_price_hist(i, token)
+            df.to_csv('{}/{}_{}.csv'.format(pwd, i, datetime.today().strftime('%Y%m%d')))
     return None
+    
