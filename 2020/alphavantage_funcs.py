@@ -163,7 +163,7 @@ def save_stock_price_hist(symbol_list, token, pwd=''):
         l = datetime.now()
         if (l - n < timedelta(minutes=1)) and (ind-curr == 5):
             print("We made 5 API calls in the last minute, taking a break...")
-            time.sleep((timedelta(minutes=1) - (l - n)).seconds)
+            time.sleep((timedelta(minutes=2) - (l - n)).seconds)
             curr = i
         else:
             df = request_stock_price_hist(i, token)
