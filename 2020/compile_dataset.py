@@ -28,7 +28,7 @@ import pandas as pd
 
 def compile_data(symbols, period_start, period_end, pwd):
     """
-    This function helps user to 
+    This function helps user to compile a dataset of stock prices.
 
     Parameters
     ----------
