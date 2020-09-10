@@ -24,9 +24,12 @@ Redistribution and use in source and binary forms, with or without
     POSSIBILITY OF SUCH DAMAGE.
 """
 import pandas as pd
+from glob import glob
 from datetime import timedelta
+from datetime import datetime
 from alphavantage_funcs import *
 from news_funcs import *
+from compile_datasets import *
 
 # First define a list of stocks we want
 symb_list = ['FB', 'NFLX', 'GOOGL', 'MSFT', 'AMZN', 'ADBE']

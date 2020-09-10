@@ -25,6 +25,23 @@ Redistribution and use in source and binary forms, with or without
 """
 
 import requests
+from textblob import TextBlob
+
+def sentiment(text):
+    """
+    Your input is a string. The function will invoke the TextBlobk package's
+    sentiment function and returns values of polarity and subjectivity to user.
+
+    Parameters
+    ----------
+    text : A string.
+
+    Returns
+    -------
+    A textblob.en.sentiments.Sentiment object.
+
+    """
+    return TextBlob(text).sentiment
 
 def request_news(start_date, end_date, topic, token):
     """
