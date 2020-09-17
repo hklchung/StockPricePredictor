@@ -92,14 +92,19 @@ def request_news(start_date, end_date, topic, token):
         colnames = list(range(0, 11))
         df = pd.DataFrame(columns = colnames)
         no_news = len(r.json()['value'])
-        for i in range(0, no_news):
-            row = pd.DataFrame(pd.DataFrame.from_dict(r.json()['value'][i], orient='index').reset_index().T.iloc[1])
-            df = pd.concat([df, row.T], ignore_index=True)
-        
-        df.columns = list(pd.DataFrame.from_dict(r.json()['value'][0], orient='index').reset_index().T.iloc[0])
-        df = df[['title', 'url', 'description', 'body', 'datePublished']]
-        
-        big_df = pd.concat([big_df, df], ignore_index=True)
+        if no_news > 0:
+            print("Successfully retrieved news articles between {} and {}".format(start_d, end_d))
+            for i in range(0, no_news):
+                row = pd.DataFrame(pd.DataFrame.from_dict(r.json()['value'][i], orient='index').reset_index().T.iloc[1])
+                df = pd.concat([df, row.T], ignore_index=True)
+            
+            df.columns = list(pd.DataFrame.from_dict(r.json()['value'][0], orient='index').reset_index().T.iloc[0])
+            df = df[['title', 'url', 'description', 'body', 'datePublished']]
+            
+            big_df = pd.concat([big_df, df], ignore_index=True)
+        else:
+            print("There were no news articles between {} and {}".format(start_d, end_d))
+            pass
     
     big_df['dates'] = [x[0:10] for x in big_df['datePublished']]
     del(big_df['datePublished'])
