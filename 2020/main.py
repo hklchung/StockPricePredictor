@@ -38,7 +38,7 @@ symb_list = ['FB', 'NFLX', 'GOOGL', 'MSFT', 'AMZN', 'ADBE']
 save_stock_price_hist(symb_list, alphavantage_token, pwd='Data')
 
 # Put together a dataframe with all stock prices
-stocks = compile_data(symb_list, '2020-01-01', '2020-05-31', 'Data/')
+stocks = compile_data(symb_list, '2010-01-01', '2020-08-28', 'Data/')
 
 # Extract news about NASDAQ
 news = request_news('2020-01-01', '2020-5-31', 'NASDAQ', rapidapi_contextualweb_token)
