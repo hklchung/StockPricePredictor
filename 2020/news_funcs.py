@@ -26,6 +26,9 @@ Redistribution and use in source and binary forms, with or without
 
 import requests
 from textblob import TextBlob
+import pandas as pd
+from datetime import timedelta
+from datetime import datetime
 
 def sentiment(text):
     """
@@ -82,6 +85,10 @@ def request_news(start_date, end_date, topic, token):
             'x-rapidapi-key': token
         }
         r = requests.request("GET", url, headers=headers, params=querystring)
+        while r.status_code != 200:
+            print("API call was not successful, trying again in 10 seconds...")
+            time.sleep(10)
+            r = requests.request("GET", url, headers=headers, params=querystring)
         colnames = list(range(0, 11))
         df = pd.DataFrame(columns = colnames)
         no_news = len(r.json()['value'])

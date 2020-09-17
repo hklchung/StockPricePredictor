@@ -29,7 +29,7 @@ from datetime import timedelta
 from datetime import datetime
 from alphavantage_funcs import *
 from news_funcs import *
-from compile_datasets import *
+from compile_dataset import *
 
 # First define a list of stocks we want
 symb_list = ['FB', 'NFLX', 'GOOGL', 'MSFT', 'AMZN', 'ADBE']
